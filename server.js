@@ -5,18 +5,20 @@ const cors = require('cors')
 
 const app = express()
 const server = http.createServer(app)
-const io = socketio(server)
+const io = socketio(server , { cors: { origin: '*' } })
 
 io.on('connection', (socket) => {
     console.log(socket.id)
+
 
     socket.on('disconnect', () => {
         console.log('User disconnected')
     })
 })
 
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
+
 
 const port = process.env.PORT || 5000
 
