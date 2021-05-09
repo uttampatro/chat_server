@@ -26,6 +26,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 var typeorm_1 = require("typeorm");
+var Message_1 = require("./Message");
+var Participant_1 = require("./Participant");
 var User = /** @class */ (function (_super) {
     __extends(User, _super);
     function User() {
@@ -36,7 +38,7 @@ var User = /** @class */ (function (_super) {
         __metadata("design:type", Number)
     ], User.prototype, "id", void 0);
     __decorate([
-        typeorm_1.Column(),
+        typeorm_1.Column({ nullable: true }),
         __metadata("design:type", String)
     ], User.prototype, "username", void 0);
     __decorate([
@@ -44,9 +46,17 @@ var User = /** @class */ (function (_super) {
         __metadata("design:type", String)
     ], User.prototype, "avatar_url", void 0);
     __decorate([
-        typeorm_1.Column({ type: 'int' }),
+        typeorm_1.Column({ type: 'int', nullable: true }),
         __metadata("design:type", Number)
     ], User.prototype, "github_id", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return Message_1.Message; }, function (message) { return message.user; }),
+        __metadata("design:type", Array)
+    ], User.prototype, "messages", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return Participant_1.Participant; }, function (participant) { return participant.user; }),
+        __metadata("design:type", Array)
+    ], User.prototype, "participants", void 0);
     User = __decorate([
         typeorm_1.Entity("users"),
         typeorm_1.Unique(['username', 'github_id'])

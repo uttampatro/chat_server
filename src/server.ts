@@ -1,3 +1,6 @@
+import "reflect-metadata";
+import { createConnection } from "typeorm";
+
 const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
@@ -18,7 +21,19 @@ io.on("connection", (socket) => {
 app.use(cors());
 app.use(express.json());
 
-const port = process.env.PORT || 8000;
+
+createConnection({
+  type: "postgres",
+  database: "chat_data",
+  username: "uttam",
+  password: "uttam",
+  synchronize: true,
+  logging: true,
+  entities: ["src/Entity/**/*.ts"],
+})
+
+
+const port = process.env.PORT || 5000;
 
 server.listen(port, () => {
   console.log(`Server is up and running on ${port}`);

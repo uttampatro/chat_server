@@ -1,3 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
+var typeorm_1 = require("typeorm");
 var express = require("express");
 var socketio = require("socket.io");
 var http = require("http");
@@ -13,7 +17,16 @@ io.on("connection", function (socket) {
 });
 app.use(cors());
 app.use(express.json());
-var port = process.env.PORT || 8000;
+typeorm_1.createConnection({
+    type: "postgres",
+    database: "chat_data",
+    username: "uttam",
+    password: "uttam",
+    synchronize: true,
+    logging: true,
+    entities: ["src/Entity/**/*.ts"],
+});
+var port = process.env.PORT || 5000;
 server.listen(port, function () {
     console.log("Server is up and running on " + port);
 });

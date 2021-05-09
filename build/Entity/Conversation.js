@@ -24,34 +24,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Conversation = void 0;
 var typeorm_1 = require("typeorm");
-var User = /** @class */ (function (_super) {
-    __extends(User, _super);
-    function User() {
+var Message_1 = require("./Message");
+var Participant_1 = require("./Participant");
+var Conversation = /** @class */ (function (_super) {
+    __extends(Conversation, _super);
+    function Conversation() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn("uuid"),
         __metadata("design:type", Number)
-    ], User.prototype, "id", void 0);
+    ], Conversation.prototype, "id", void 0);
     __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], User.prototype, "username", void 0);
-    __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], User.prototype, "avatar_url", void 0);
-    __decorate([
-        typeorm_1.Column({ type: 'int' }),
+        typeorm_1.Column({ type: "int" }),
+        typeorm_1.Index(),
         __metadata("design:type", Number)
-    ], User.prototype, "github_id", void 0);
-    User = __decorate([
-        typeorm_1.Entity("users"),
-        typeorm_1.Unique(['username', 'github_id'])
-    ], User);
-    return User;
+    ], Conversation.prototype, "last_message_id", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return Message_1.Message; }, function (message) { return message.conversation; }),
+        __metadata("design:type", Array)
+    ], Conversation.prototype, "messages", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return Participant_1.Participant; }, function (participant) { return participant.conversation; }),
+        __metadata("design:type", Array)
+    ], Conversation.prototype, "participants", void 0);
+    Conversation = __decorate([
+        typeorm_1.Entity("conversations")
+    ], Conversation);
+    return Conversation;
 }(typeorm_1.BaseEntity));
-exports.User = User;
-//# sourceMappingURL=User.js.map
+exports.Conversation = Conversation;
+//# sourceMappingURL=Conversation.js.map

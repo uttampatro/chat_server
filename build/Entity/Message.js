@@ -24,34 +24,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Message = void 0;
 var typeorm_1 = require("typeorm");
-var User = /** @class */ (function (_super) {
-    __extends(User, _super);
-    function User() {
+var Conversation_1 = require("./Conversation");
+var User_1 = require("./User");
+var Message = /** @class */ (function (_super) {
+    __extends(Message, _super);
+    function Message() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn("uuid"),
         __metadata("design:type", Number)
-    ], User.prototype, "id", void 0);
+    ], Message.prototype, "id", void 0);
     __decorate([
-        typeorm_1.Column(),
+        typeorm_1.Column('text'),
         __metadata("design:type", String)
-    ], User.prototype, "username", void 0);
+    ], Message.prototype, "content", void 0);
     __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], User.prototype, "avatar_url", void 0);
+        typeorm_1.ManyToOne(function () { return User_1.User; }),
+        __metadata("design:type", User_1.User)
+    ], Message.prototype, "user", void 0);
     __decorate([
-        typeorm_1.Column({ type: 'int' }),
-        __metadata("design:type", Number)
-    ], User.prototype, "github_id", void 0);
-    User = __decorate([
-        typeorm_1.Entity("users"),
-        typeorm_1.Unique(['username', 'github_id'])
-    ], User);
-    return User;
+        typeorm_1.ManyToOne(function () { return Conversation_1.Conversation; }),
+        __metadata("design:type", Conversation_1.Conversation)
+    ], Message.prototype, "conversation", void 0);
+    __decorate([
+        typeorm_1.CreateDateColumn(),
+        typeorm_1.Index(),
+        __metadata("design:type", Date)
+    ], Message.prototype, "created_at", void 0);
+    Message = __decorate([
+        typeorm_1.Entity("messages")
+    ], Message);
+    return Message;
 }(typeorm_1.BaseEntity));
-exports.User = User;
-//# sourceMappingURL=User.js.map
+exports.Message = Message;
+//# sourceMappingURL=Message.js.map
