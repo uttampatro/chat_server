@@ -24,9 +24,9 @@ typeorm_1.createConnection({
     password: "uttam",
     synchronize: true,
     logging: true,
-    entities: ["src/Entity/**/*.ts"],
+    entities: ["src/Entity/**/*.ts", "Entity/**/*.js"],
 });
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 8000;
 server.listen(port, function () {
     console.log("Server is up and running on " + port);
 });

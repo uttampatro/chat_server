@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -18,10 +19,12 @@ export class Message extends BaseEntity {
   @Column('text')
   content: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, user => user.username)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Conversation)
+  @ManyToOne(() => Conversation, conversation => conversation.last_message_id)
+  @JoinColumn({ name: 'conversation_id' })
   conversation: Conversation;
 
   @CreateDateColumn()

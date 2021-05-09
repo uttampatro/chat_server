@@ -42,11 +42,13 @@ var Message = /** @class */ (function (_super) {
         __metadata("design:type", String)
     ], Message.prototype, "content", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return User_1.User; }),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.username; }),
+        typeorm_1.JoinColumn({ name: 'user_id' }),
         __metadata("design:type", User_1.User)
     ], Message.prototype, "user", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Conversation_1.Conversation; }),
+        typeorm_1.ManyToOne(function () { return Conversation_1.Conversation; }, function (conversation) { return conversation.last_message_id; }),
+        typeorm_1.JoinColumn({ name: 'conversation_id' }),
         __metadata("design:type", Conversation_1.Conversation)
     ], Message.prototype, "conversation", void 0);
     __decorate([

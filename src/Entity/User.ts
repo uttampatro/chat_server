@@ -18,10 +18,10 @@ export class User extends BaseEntity {
     @Column({ type: 'int' })
     github_id: number
 
-    // @OneToMany(() => Message, (message) => message.user)
-    // messages: Message[]
+    @OneToMany(() => Message, (message) => message.user)
+    messages: Message[]
 
-    // @OneToMany(() => Participant, (participant) => participant.user)
-    // participants: Participant[]
+    @OneToMany(() => Participant, (participant) => participant.user)
+    participants: Participant[]
 }
 

@@ -1,20 +1,26 @@
-import { BaseEntity, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, } from "typeorm";
+import {
+  BaseEntity,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from "typeorm";
 import { Conversation } from "./Conversation";
 import { User } from "./User";
 
-
 @Entity("participants")
 export class Participant extends BaseEntity {
-   @PrimaryColumn()
-   @ManyToOne(() => User)
-   user: User
+  @PrimaryColumn("int")
+  @ManyToOne(() => User, (user) => user.username)
+  @JoinColumn({ name: "user_id" })
+  user: User;
 
-   @PrimaryColumn()
-   @ManyToOne(() => Conversation)
-   conversation: Conversation
+  @PrimaryColumn("int")
+  @ManyToOne(() => Conversation, (conversation) => conversation.id)
+  @JoinColumn({ name: "conversation_id" })
+  conversation: Conversation;
 
-   @CreateDateColumn()
-   messages_read_at: Date
-
+  @CreateDateColumn()
+  messages_read_at: Date;
 }
-
