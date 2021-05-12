@@ -42,6 +42,7 @@ var express = require("express");
 var socketio = require("socket.io");
 var http = require("http");
 var cors = require("cors");
+require('dotenv').config();
 var app = express();
 var server = http.createServer(app);
 var io = socketio(server, { cors: { origin: "*" } });
@@ -55,9 +56,9 @@ app.use(cors());
 app.use(express.json());
 typeorm_1.createConnection({
     type: "postgres",
-    database: "chat_data",
-    username: "uttam",
-    password: "uttam",
+    database: process.env.DB_database,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
     synchronize: true,
     logging: true,
     entities: ["src/entity/**/*.ts", "entity/**/*.js"],

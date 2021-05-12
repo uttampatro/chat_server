@@ -5,6 +5,7 @@ const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
 const cors = require("cors");
+require('dotenv').config()
 
 const app = express();
 const server = http.createServer(app);
@@ -24,9 +25,9 @@ app.use(express.json());
 
 createConnection({
   type: "postgres",
-  database: "chat_data",
-  username: "uttam",
-  password: "uttam",
+  database: process.env.DB_database,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
   synchronize: true,
   logging: true,
   entities: ["src/entity/**/*.ts", "entity/**/*.js"],
