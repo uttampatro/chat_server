@@ -38,7 +38,7 @@ var User = /** @class */ (function (_super) {
         __metadata("design:type", Number)
     ], User.prototype, "id", void 0);
     __decorate([
-        typeorm_1.Column({ nullable: true }),
+        typeorm_1.Column(),
         __metadata("design:type", String)
     ], User.prototype, "username", void 0);
     __decorate([
@@ -46,7 +46,7 @@ var User = /** @class */ (function (_super) {
         __metadata("design:type", String)
     ], User.prototype, "avatar_url", void 0);
     __decorate([
-        typeorm_1.Column({ type: 'int', nullable: true }),
+        typeorm_1.Column({ type: 'int' }),
         __metadata("design:type", Number)
     ], User.prototype, "github_id", void 0);
     __decorate([

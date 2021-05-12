@@ -34,17 +34,19 @@ var Participant = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
-        typeorm_1.PrimaryColumn(),
-        typeorm_1.ManyToOne(function () { return User_1.User; }),
+        typeorm_1.PrimaryColumn("int"),
+        typeorm_1.ManyToOne(function () { return User_1.User; }, function (user) { return user.username; }),
+        typeorm_1.JoinColumn({ name: "user_id" }),
         __metadata("design:type", User_1.User)
     ], Participant.prototype, "user", void 0);
     __decorate([
-        typeorm_1.PrimaryColumn(),
-        typeorm_1.ManyToOne(function () { return Conversation_1.Conversation; }),
+        typeorm_1.PrimaryColumn("int"),
+        typeorm_1.ManyToOne(function () { return Conversation_1.Conversation; }, function (conversation) { return conversation.id; }),
+        typeorm_1.JoinColumn({ name: "conversation_id" }),
         __metadata("design:type", Conversation_1.Conversation)
     ], Participant.prototype, "conversation", void 0);
     __decorate([
-        typeorm_1.CreateDateColumn({ nullable: true }),
+        typeorm_1.CreateDateColumn(),
         __metadata("design:type", Date)
     ], Participant.prototype, "messages_read_at", void 0);
     Participant = __decorate([
