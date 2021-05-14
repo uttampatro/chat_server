@@ -35,14 +35,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var cookie_parser_1 = __importDefault(require("cookie-parser"));
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
+var users_1 = __importDefault(require("./routes/users"));
 var express = require("express");
 var socketio = require("socket.io");
 var http = require("http");
 var cors = require("cors");
-require('dotenv').config();
+require("dotenv").config();
 var app = express();
 var server = http.createServer(app);
 var io = socketio(server, { cors: { origin: "*" } });
@@ -52,8 +57,14 @@ io.on("connection", function (socket) {
         console.log("User disconnected");
     });
 });
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+}));
 app.use(express.json());
+app.use(cookie_parser_1.default());
+// user routes
+app.use('/api', users_1.default);
 typeorm_1.createConnection({
     type: "postgres",
     database: process.env.DB_database,
@@ -62,12 +73,14 @@ typeorm_1.createConnection({
     synchronize: true,
     logging: true,
     entities: ["src/entity/**/*.ts", "entity/**/*.js"],
-}).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
+})
+    .then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         console.log("Express application is up and running on port 8000");
         return [2 /*return*/];
     });
-}); }).catch(function (error) { return console.log(error); });
+}); })
+    .catch(function (error) { return console.log(error); });
 var port = process.env.PORT || 8000;
 server.listen(port, function () {
     console.log("Server is up and running on " + port);

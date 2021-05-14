@@ -12,9 +12,6 @@ export class User extends BaseEntity {
     @Column()
     username: string
 
-    @Column()
-    avatar_url: string
-
     @Column({ type: 'int' })
     github_id: number
 
