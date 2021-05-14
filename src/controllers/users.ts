@@ -1,4 +1,3 @@
-import { getRepository } from "typeorm";
 import { Request, Response } from "express";
 import { User } from "../entity/User";
 import { get } from "lodash";
@@ -50,56 +49,58 @@ export interface GitHubUser {
 }
 
 async function getGithubUser({ code }: { code: string }): Promise<GitHubUser> {
-  const githubToken = await axios
-    .post(
-      `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`
-    )
-    .then((res) => res.data)
-    .catch((error) => {
-      throw error;
-    });
+  try {
+    const githubToken = await axios
+      .post(
+        `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
 
-  const decode = querystring.parse(githubToken);
+    const decode = querystring.parse(githubToken);
 
-  const accessToken = decode.access_token;
+    const accessToken = decode.access_token;
 
-  return axios
-    .get("https://api.github.com/user", {
+    return axios.get("https://api.github.com/user", {
       headers: { Authorization: `Bearer ${accessToken}` },
-    })
-    .then((res) => res.data)
-    .catch((error) => {
-      console.log("Error getting user from GITHUB");
-      throw error;
     });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export const signIn = async (req: Request, res: Response) => {
-  const code = get(req, "query.code");
-  const path = get(req, "query.path");
+  try {
+    const code = get(req, "query.code");
+    const path = get(req, "query.path");
 
-  if (!code) {
-    throw new Error("No code!!");
+    if (!code) {
+      throw new Error("No code!!");
+    }
+    const githubUser = await getGithubUser({ code });
+
+    const token = jwt.sign(githubUser, secret);
+
+    res.cookie(COOKIE_NAME, token, {
+      httpOnly: true,
+      domain: "localhost",
+    });
+
+    res.redirect(`http://localhost:3000${path}`);
+  } catch (error) {
+    console.log(error);
   }
-  const githubUser = await getGithubUser({ code });
-
-  const token = jwt.sign(githubUser, secret); 
-
-  res.cookie(COOKIE_NAME, token, {
-    httpOnly: true,
-    domain: "localhost",
-  });
-
-  res.redirect(`http://localhost:3000${path}`);
 };
 
 export const fetchUserProfile = async (req: Request, res: Response) => {
-  const cookie = get(req, `cookies[${COOKIE_NAME}]`);
-
   try {
+    const cookie = get(req, `cookies[${COOKIE_NAME}]`);
+
     const decode = jwt.verify(cookie, secret);
-    res.send(decode)
+    res.send(decode);
   } catch (error) {
-    return  res.send(null);
+    return res.send(null);
   }
 };
