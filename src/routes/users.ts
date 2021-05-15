@@ -1,10 +1,12 @@
-import * as express from 'express';
-import { Router } from 'express';
-import { fetchUserProfile, signIn } from '../controllers/users';
+import * as express from "express";
+import { Router } from "express";
+import { fetchUserProfile, saveUser } from "../controllers/users";
 
 const router: Router = express.Router();
 
-router.get('/auth/github', signIn);
-router.get('/me', fetchUserProfile)
+
+router.get("/me", fetchUserProfile);
+router.get("/auth/github", saveUser);
+
 
 export default router;
