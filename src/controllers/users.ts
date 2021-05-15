@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import { User } from "../entity/User";
 import { get } from "lodash";
 import axios from "axios";
@@ -6,7 +6,6 @@ import querystring from "querystring";
 import jwt from "jsonwebtoken";
 
 require("dotenv").config();
-
 
 const GITHUB_CLIENT_ID = process.env.CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -50,18 +49,16 @@ export interface GitHubUser {
 
 async function getGithubUser({ code }: { code: string }): Promise<GitHubUser> {
   try {
-    const githubToken = await axios
-      .post(
-        `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`
-      )
-      .then((res) => res.data)
-      .catch((error) => {
-        throw error;
-      });
+    const response = await axios.post(
+      `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`
+    );
+
+    const githubToken = response.data;
 
     const decode = querystring.parse(githubToken);
 
     const accessToken = decode.access_token;
+    console.log("Access Token =>", accessToken);
 
     return axios.get("https://api.github.com/user", {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -70,29 +67,6 @@ async function getGithubUser({ code }: { code: string }): Promise<GitHubUser> {
     console.log(error);
   }
 }
-
-export const signIn = async (req: Request, res: Response) => {
-  try {
-    const code = get(req, "query.code");
-    const path = get(req, "query.path");
-
-    if (!code) {
-      throw new Error("No code!!");
-    }
-    const githubUser = await getGithubUser({ code });
-
-    const token = jwt.sign(githubUser, secret);
-
-    res.cookie(COOKIE_NAME, token, {
-      httpOnly: true,
-      domain: "localhost",
-    });
-
-    res.redirect(`http://localhost:3000${path}`);
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 export const fetchUserProfile = async (req: Request, res: Response) => {
   try {
@@ -104,3 +78,47 @@ export const fetchUserProfile = async (req: Request, res: Response) => {
     return res.send(null);
   }
 };
+
+export const saveUser = async (req: Request, res: Response) => {
+  try {
+    const code = get(req, "body.code");
+    const path = get(req, "query.path");
+
+    const githubUser = await getGithubUser({ code });
+    const token = jwt.sign(githubUser, secret);
+
+    res.cookie(COOKIE_NAME, token, {
+      httpOnly: true,
+      domain: "localhost",
+    });
+    res.redirect(`http://localhost:3000${path}`);
+
+    const user = new User();
+    user.username = githubUser.login;
+    user.github_id = githubUser.id;
+    await user.save();
+
+    if (user) {
+      return res.send(user.username);
+    } else {
+      return await user.save();
+    }
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+};
+
+// export const getUserById = async (req: Request, res: Response) => {
+//   try {
+//     const code = get(req, "query.code");
+//     const githubUser = await getGithubUser({ code });
+
+//     const user = await User.find()
+
+//     return res.json(user)
+
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }

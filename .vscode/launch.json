@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+        
         {
             "type": "node",
             "request": "attach",
@@ -8,6 +9,12 @@
             "processId": "${command:PickProcess}",
             "restart": true,
             "protocol": "inspector"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/src/controllers",
+            "program": "${workspaceRoot}/src/controller/users.ts"
         }
     ]
 }
