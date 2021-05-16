@@ -3,8 +3,8 @@ require("dotenv").config();
 
 import cookieParser from "cookie-parser";
 import { createConnection } from "typeorm";
-import userRouter from "./routes/users";
-import chatRouter from "./routes/chat"
+import v1Router from "./routes/index"
+
 
 const express = require("express");
 const http = require("http");
@@ -33,8 +33,7 @@ createConnection({
 })
   .then(async (connection) => {
     console.log("Express application is up and running on port 5000");
-    app.use("/v1", userRouter);
-    app.use("/v1", chatRouter);
+    app.use("/v1", v1Router);
 
     const port = process.env.PORT || 5000;
 

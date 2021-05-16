@@ -6,7 +6,7 @@ const router: Router = express.Router();
 
 router.get("/conversationList", ChatController.fetchConversationList)
 
-router.post("/conversations", ChatController.createConversation)
-router.get("/conversations/:id", ChatController.fetchChat)
+router.post("/conversation", ChatController.createConversation)
+router.get("/conversation/:id", ChatController.fetchChat)
 
 export default router;
