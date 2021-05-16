@@ -12,7 +12,7 @@ import { User } from "./User";
 @Entity("participants")
 export class Participant extends BaseEntity {
   @PrimaryColumn("int")
-  @ManyToOne(() => User, (user) => user.username)
+  @ManyToOne(() => User, (user) => user.email)
   @JoinColumn({ name: "user_id" })
   user: User;
 

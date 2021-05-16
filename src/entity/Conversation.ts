@@ -10,7 +10,7 @@ export class Conversation extends BaseEntity {
 
     @Column({ type: "int" })
     @Index()
-    last_message_id: number
+    lastMessageId: number
 
     @OneToMany(() => Message, (message) => message.conversation)
     messages: Message[]

@@ -4,23 +4,14 @@ require("dotenv").config();
 import cookieParser from "cookie-parser";
 import { createConnection } from "typeorm";
 import userRouter from "./routes/users";
+import chatRouter from "./routes/chat"
 
 const express = require("express");
-const socketio = require("socket.io");
 const http = require("http");
 const cors = require("cors");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server, { cors: { origin: "*" } });
-
-io.on("connection", (socket) => {
-  console.log("User Connected");
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-  });
-});
 
 app.use(
   cors({
@@ -30,8 +21,6 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-
-// user routes
 
 createConnection({
   type: "postgres",
@@ -44,12 +33,13 @@ createConnection({
 })
   .then(async (connection) => {
     console.log("Express application is up and running on port 5000");
-    app.use("/api", userRouter);
+    app.use("/v1", userRouter);
+    app.use("/v1", chatRouter);
+
+    const port = process.env.PORT || 5000;
+
+    server.listen(port, () => {
+      console.log(`Server is up and running on ${port}`);
+    });
   })
   .catch((error) => console.log(error));
-
-const port = process.env.PORT || 5000;
-
-server.listen(port, () => {
-  console.log(`Server is up and running on ${port}`);
-});

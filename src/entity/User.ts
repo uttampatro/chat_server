@@ -1,24 +1,29 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from "typeorm";
 import { Message } from "./Message";
 import { Participant } from "./Participant";
 
-
 @Entity("users")
-@Unique(['username', 'github_id'])
+@Unique(["email", "githubId"])
 export class User extends BaseEntity {
-    @PrimaryGeneratedColumn("uuid")
-    id: number
+  @PrimaryGeneratedColumn("uuid")
+  id: number;
 
-    @Column()
-    username: string
+  @Column()
+  email: string;
 
-    @Column({ type: 'int' })
-    github_id: number
+  @Column({ type: "int" })
+  githubId: number;
 
-    @OneToMany(() => Message, (message) => message.user)
-    messages: Message[]
+  @OneToMany(() => Message, (message) => message.user)
+  messages: Message[];
 
-    @OneToMany(() => Participant, (participant) => participant.user)
-    participants: Participant[]
+  @OneToMany(() => Participant, (participant) => participant.user)
+  participants: Participant[];
 }
-

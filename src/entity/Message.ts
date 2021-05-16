@@ -19,15 +19,21 @@ export class Message extends BaseEntity {
   @Column('text')
   content: string;
 
-  @ManyToOne(() => User, user => user.username)
+  @ManyToOne(() => User, user => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Conversation, conversation => conversation.last_message_id)
+  @ManyToOne(() => Conversation, conversation => conversation.id)
   @JoinColumn({ name: 'conversation_id' })
   conversation: Conversation;
 
   @CreateDateColumn()
   @Index()
   created_at: Date;
+
+  // constructor({content}: { content: string}){
+  //   super()
+  //   Object.assign(this, content)
+  // }  
+  
 }
