@@ -1,22 +1,26 @@
-import { BaseEntity, Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Message } from "./Message";
-import { Participant } from "./Participant";
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    Index,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Message } from './Message';
+import { Participant } from './Participant';
 
-
-@Entity("conversations")
+@Entity('conversations')
 export class Conversation extends BaseEntity {
-    @PrimaryGeneratedColumn("uuid")
-    id: number
+    @PrimaryGeneratedColumn('uuid')
+    id: number;
 
-    @Column({ type: "int" })
+    @Column({ type: 'int' })
     @Index()
-    lastMessageId: number
+    lastMessageId: number;
 
-    @OneToMany(() => Message, (message) => message.conversation)
-    messages: Message[]
+    @OneToMany(() => Message, message => message.conversation)
+    messages: Message[];
 
-    @OneToMany(() => Participant, (participant) => participant.conversation)
-    participants: Participant[]
-
+    @OneToMany(() => Participant, participant => participant.conversation)
+    participants: Participant[];
 }
-

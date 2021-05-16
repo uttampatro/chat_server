@@ -1,11 +1,9 @@
 export interface SaveConversationDTO {
-    lastMessageId: number
+    lastMessageId: number;
 }
 
-export interface FetchConversationDTO{
-    
-}
+export interface FetchConversationDTO {}
 
-export interface FindConversationsDTO{
-    id: number
+export interface FindConversationsDTO {
+    id: number;
 }
