@@ -1,6 +1,6 @@
 import { Conversation } from '../../entity/Conversation';
 import {
-    FetchConversationDTO,
+    deleteConversationDTO,
     FindConversationsDTO,
     SaveConversationDTO,
 } from './ConversationsDTO';
@@ -13,13 +13,23 @@ class ConversationService {
         return await conversation.save();
     }
     async findConversations() {
-        const conversation = await Conversation.find();
+        const conversation = await Conversation.find({
+            relations: ['messages'],
+        });
         return conversation;
     }
-    async findConversationsChat(dto: FindConversationsDTO) {
+    async findConversationChat(dto: FindConversationsDTO) {
+        const { id } = dto;
+        const conversation = await Conversation.findOneOrFail(
+            { id },
+            { relations: ['messages'] }
+        );
+        return conversation;
+    }
+    async deleteConversation(dto: deleteConversationDTO) {
         const { id } = dto;
         const conversation = await Conversation.findOneOrFail({ id });
-        return conversation;
+        return conversation.remove();
     }
 }
 

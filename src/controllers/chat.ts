@@ -1,17 +1,16 @@
 import { Request, Response } from 'express';
-import { User } from '../entity/User';
 import { get } from 'lodash';
 import { ConversationService } from '../services';
 
 class ChatController {
     fetchConversationList = async (req: Request, res: Response) => {
         try {
-            console.log('hit1');
+            // console.log('hit1');
             const conversations = await ConversationService.findConversations();
-            console.log('hit2');
+            // console.log('hit2');
             return res.json(conversations);
         } catch (error) {
-            console.log('hit3');
+            // console.log('hit3');
             return res.status(500).json({
                 success: false,
                 message: 'Something went wrong',
@@ -22,10 +21,11 @@ class ChatController {
     fetchChat = async (req: Request, res: Response) => {
         try {
             const Id = get(req, 'params.id');
-            const conversation =
-                await ConversationService.findConversationsChat({
+            const conversation = await ConversationService.findConversationChat(
+                {
                     id: Id,
-                });
+                }
+            );
             return res.json(conversation);
         } catch (error) {
             return res.status(500).json({
@@ -42,6 +42,20 @@ class ChatController {
                 lastMessageId,
             });
             return res.json(conversations);
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: 'Something went wrong',
+            });
+        }
+    };
+    deleteConversations = async (req: Request, res: Response) => {
+        try {
+            const Id = get(req, 'params.id');
+            const conversation = await ConversationService.deleteConversation({
+                id: Id,
+            });
+            return res.json(conversation);
         } catch (error) {
             return res.status(500).json({
                 success: false,

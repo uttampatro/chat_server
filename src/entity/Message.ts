@@ -29,6 +29,5 @@ export class Message extends BaseEntity {
 
     @CreateDateColumn()
     @Index()
-    created_at: Date;
-
+    createdAt: Date;
 }

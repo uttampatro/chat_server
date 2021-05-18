@@ -19,7 +19,7 @@ export class Conversation extends BaseEntity {
     lastMessageId: number;
 
     @OneToMany(() => Message, message => message.conversation)
-    messages: Message[];
+    messages: Message;
 
     @OneToMany(() => Participant, participant => participant.conversation)
     participants: Participant[];
