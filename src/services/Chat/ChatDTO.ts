@@ -1,11 +1,3 @@
-export interface SaveChatDTO {
-    id: number;
-}
-
-export interface FindChatsDTO {
-    id: number;
-}
-
-export interface deleteChatDTO {
+export interface FindChatDTO {
     id: number;
 }
