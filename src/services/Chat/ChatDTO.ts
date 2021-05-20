@@ -1,5 +1,5 @@
 export interface SaveChatDTO {
-    id: number
+    id: number;
 }
 
 export interface FindChatsDTO {

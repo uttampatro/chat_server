@@ -1,6 +1,7 @@
 import {
     BaseEntity,
     Entity,
+    JoinColumn,
     OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
@@ -13,7 +14,8 @@ export class Conversation extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
-    @OneToOne(() => Message, message => message.conversation)
+    @OneToOne(() => Message)
+    @JoinColumn()
     lastMessage: Message;
 
     @OneToMany(() => Participant, participant => participant.conversation)

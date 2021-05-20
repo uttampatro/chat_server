@@ -9,7 +9,6 @@ import {
     OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Conversation } from './Conversation';
 import { User } from './User';
 
 @Entity('messages')
@@ -24,10 +23,6 @@ export class Message extends BaseEntity {
     @JoinColumn()
     user: User;
 
-    @OneToOne(() => Conversation, conversation => conversation.lastMessage)
-    @JoinColumn()
-    conversation: Conversation;
-    
     @CreateDateColumn()
     @Index()
     createdAt: Date;
