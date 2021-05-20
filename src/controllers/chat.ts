@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { get } from 'lodash';
-import { ConversationService } from '../services';
+import { ChatService } from '../services';
 
 class ChatController {
     fetchConversationList = async (req: Request, res: Response) => {
         try {
             // console.log('hit1');
-            const conversations = await ConversationService.findConversations();
+            const conversations = await ChatService.findChats();
             // console.log('hit2');
             return res.json(conversations);
         } catch (error) {
@@ -21,12 +21,10 @@ class ChatController {
     fetchChat = async (req: Request, res: Response) => {
         try {
             const Id = get(req, 'params.id');
-            const conversation = await ConversationService.findConversationChat(
-                {
-                    id: Id,
-                }
-            );
-            return res.json(conversation);
+            const chat = await ChatService.findChatConversation({
+                id: Id,
+            });
+            return res.json(chat);
         } catch (error) {
             return res.status(500).json({
                 success: false,
@@ -35,24 +33,22 @@ class ChatController {
         }
     };
 
-    createConversation = async (req: Request, res: Response) => {
-        try {
-            const lastMessageId = get(req, 'body.lastMessageId');
-            const conversations = await ConversationService.saveConversion({
-                lastMessageId,
-            });
-            return res.json(conversations);
-        } catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: 'Something went wrong',
-            });
-        }
-    };
-    deleteConversations = async (req: Request, res: Response) => {
+    // createConversation = async (req: Request, res: Response) => {
+    //     try {
+    //         const Id = get(req, 'params.id');
+    //         const conversations = await ChatService.saveChat({ Id });
+    //         return res.json(conversations);
+    //     } catch (error) {
+    //         return res.status(500).json({
+    //             success: false,
+    //             message: 'Something went wrong',
+    //         });
+    //     }
+    // };
+    deleteConversation = async (req: Request, res: Response) => {
         try {
             const Id = get(req, 'params.id');
-            const conversation = await ConversationService.deleteConversation({
+            const conversation = await ChatService.deleteChat({
                 id: Id,
             });
             return res.json(conversation);

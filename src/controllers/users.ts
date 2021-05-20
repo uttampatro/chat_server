@@ -5,6 +5,8 @@ import { UserService } from '../services';
 class UserController {
     fetchUserProfile = async (req: Request, res: Response) => {
         try {
+            const users = await UserService.findUsers();
+            return res.json(users);
         } catch (error) {
             return res.status(500).json({
                 success: false,

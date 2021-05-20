@@ -12,15 +12,15 @@ import { User } from './User';
 @Entity('participants')
 export class Participant extends BaseEntity {
     @PrimaryColumn('int')
-    @ManyToOne(() => User, user => user.id)
-    @JoinColumn({ name: 'user_id' })
+    @ManyToOne(() => User, user => user.participants)
+    @JoinColumn()
     user: User;
 
     @PrimaryColumn('int')
-    @ManyToOne(() => Conversation, conversation => conversation.id)
-    @JoinColumn({ name: 'conversation_id' })
+    @ManyToOne(() => Conversation, conversation => conversation.participants)
+    @JoinColumn()
     conversation: Conversation;
-
+    
     @CreateDateColumn()
     messageReadAt: Date;
 }

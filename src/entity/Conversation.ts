@@ -1,9 +1,8 @@
 import {
     BaseEntity,
-    Column,
     Entity,
-    Index,
     OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Message } from './Message';
@@ -14,12 +13,8 @@ export class Conversation extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
-    @Column({ type: 'int' })
-    @Index()
-    lastMessageId: number;
-
-    @OneToMany(() => Message, message => message.conversation)
-    messages: Message;
+    @OneToOne(() => Message, message => message.conversation)
+    lastMessage: Message;
 
     @OneToMany(() => Participant, participant => participant.conversation)
     participants: Participant[];

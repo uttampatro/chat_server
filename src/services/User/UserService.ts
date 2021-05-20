@@ -9,6 +9,12 @@ class UserService {
         user.githubId = githubId;
         return await user.save();
     }
+    async findUsers() {
+        const conversation = await User.find({
+            relations: ['messages'],
+        });
+        return conversation;
+    }
 }
 
 export default new UserService();

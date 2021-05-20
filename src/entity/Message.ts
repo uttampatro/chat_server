@@ -6,6 +6,7 @@ import {
     Index,
     JoinColumn,
     ManyToOne,
+    OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Conversation } from './Conversation';
@@ -19,14 +20,14 @@ export class Message extends BaseEntity {
     @Column('text')
     content: string;
 
-    @ManyToOne(() => User, user => user.id)
-    @JoinColumn({ name: 'user_id' })
+    @ManyToOne(() => User, user => user.messages)
+    @JoinColumn()
     user: User;
 
-    @ManyToOne(() => Conversation, conversation => conversation.id)
-    @JoinColumn({ name: 'conversation_id' })
+    @OneToOne(() => Conversation, conversation => conversation.lastMessage)
+    @JoinColumn()
     conversation: Conversation;
-
+    
     @CreateDateColumn()
     @Index()
     createdAt: Date;
