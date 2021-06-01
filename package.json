@@ -5,7 +5,7 @@
     "main": "build/server.js",
     "type": "module",
     "engines": {
-        "node": "12.16.3"
+        "node": "12.11.1"
     },
     "scripts": {
         "start": "ts-node src/server.ts",
