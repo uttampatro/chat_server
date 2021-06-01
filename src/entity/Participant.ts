@@ -20,7 +20,7 @@ export class Participant extends BaseEntity {
     @ManyToOne(() => Conversation, conversation => conversation.participants)
     @JoinColumn()
     conversation: Conversation;
-    
+
     @CreateDateColumn()
     messageReadAt: Date;
 }

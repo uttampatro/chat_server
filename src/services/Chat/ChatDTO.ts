@@ -1,3 +1,6 @@
 export interface FindChatDTO {
-    id: number;
+    conversationId: number;
+}
+export interface SaveChatDTO{
+    id: number
 }

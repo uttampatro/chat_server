@@ -10,7 +10,7 @@ import { Message } from './Message';
 import { Participant } from './Participant';
 
 @Entity('users')
-@Unique(['email', 'githubId'])
+@Unique(['email'])
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: number;
@@ -18,8 +18,11 @@ export class User extends BaseEntity {
     @Column()
     email: string;
 
-    @Column({ type: 'int' })
-    githubId: number;
+    // @Column({ type: 'int' })
+    // githubId: number;
+
+    @Column({nullable:true})
+    password: string;
 
     @OneToMany(() => Message, message => message.user)
     messages: Message[];

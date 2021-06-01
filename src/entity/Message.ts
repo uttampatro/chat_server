@@ -6,7 +6,6 @@ import {
     Index,
     JoinColumn,
     ManyToOne,
-    OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './User';
@@ -18,6 +17,9 @@ export class Message extends BaseEntity {
 
     @Column('text')
     content: string;
+
+    @Column({ type: 'uuid' })
+    conversationId: number;
 
     @ManyToOne(() => User, user => user.messages)
     @JoinColumn()

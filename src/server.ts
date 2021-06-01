@@ -6,11 +6,26 @@ import { createConnection } from 'typeorm';
 import v1Router from './routes/index';
 
 const express = require('express');
+const socketio = require('socket.io');
 const http = require('http');
 const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
+const io = socketio(server, { cors: { origin: '*' } });
+
+io.on('connection', socket => {
+    console.log(socket.id);
+
+    socket.on('send_message', data => {
+        console.log(data);
+        socket.to(data.room).emit('receive_message', data.content);
+    });
+
+    socket.on('disconnect', data => {
+        console.log('User disconnected');
+    });
+});
 
 app.use(
     cors({

@@ -3,10 +3,10 @@ import { SaveUserDTO } from './UserDTO';
 
 class UserService {
     async saveUser(dto: SaveUserDTO) {
-        const { githubId, email } = dto;
+        const { email, password } = dto;
         const user = new User();
         user.email = email;
-        user.githubId = githubId;
+        user.password = password;
         return await user.save();
     }
     async findUsers() {

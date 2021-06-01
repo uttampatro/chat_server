@@ -17,10 +17,9 @@ class UserController {
 
     saveUser = async (req: Request, res: Response) => {
         try {
-            const githubId = get(req, 'body.githubId');
             const email = get(req, 'body.email');
-
-            const user = await UserService.saveUser({ githubId, email });
+            const password = get(req, 'body.password');
+            const user = await UserService.saveUser({ email, password });
 
             if (user) {
                 return res.send(user);
