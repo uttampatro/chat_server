@@ -2,8 +2,7 @@
     "name": "server",
     "version": "1.0.0",
     "description": "",
-    "main": "server.js",
-    "type": "module",
+    "main": "build/server.js",
     "scripts": {
         "start": "ts-node src/server.ts",
         "dev": "nodemon --exec ts-node src/server.ts",
