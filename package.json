@@ -2,11 +2,11 @@
     "name": "server",
     "version": "1.0.0",
     "description": "",
-    "main": "build/server.js",
-    "type": "module",
+    "main": "/build/server.js",
     "engines": {
         "node": "12.11.1"
     },
+    "type": "module",
     "scripts": {
         "start": "ts-node src/server.ts",
         "dev": "nodemon --exec ts-node src/server.ts",
