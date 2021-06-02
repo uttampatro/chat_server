@@ -14,22 +14,22 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, { cors: { origin: '*' } });
 
-io.on('connection', socket => {
-    console.log(socket.id);
+// io.on('connection', socket => {
+//     console.log(socket.id);
 
-    socket.on('send_message', data => {
-        console.log(data);
-        socket.to(data.room).emit('receive_message', data.content);
-    });
+//     socket.on('send_message', data => {
+//         console.log(data);
+//         socket.to(data.room).emit('receive_message', data.content);
+//     });
 
-    socket.on('disconnect', data => {
-        console.log('User disconnected');
-    });
-});
+//     socket.on('disconnect', data => {
+//         console.log('User disconnected');
+//     });
+// });
 
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: '*',
         credentials: true,
     })
 );

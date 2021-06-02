@@ -20,12 +20,7 @@ class UserController {
             const email = get(req, 'body.email');
             const password = get(req, 'body.password');
             const user = await UserService.saveUser({ email, password });
-
-            if (user) {
-                return res.send(user);
-            } else {
-                return await user.save();
-            }
+            return res.send(user)
         } catch (error) {
             console.log(error);
             res.send(error);
