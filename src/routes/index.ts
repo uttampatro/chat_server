@@ -1,9 +1,12 @@
-import * as express from 'express';
-import { Router } from 'express';
+import express, { Router, Request, Response } from 'express';
 import UserController from '../controllers/users';
 import ChatController from '../controllers/chat';
 
 const router: Router = express.Router();
+
+router.get('/', (_req: Request, res: Response) => {
+    res.send('server up and running');
+});
 
 // User controller
 router.get('/login', UserController.fetchUserProfile);
