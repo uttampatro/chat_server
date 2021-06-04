@@ -9,8 +9,8 @@ router.get('/', (_req: Request, res: Response) => {
 });
 
 // User controller
-router.get('/login', UserController.fetchUserProfile);
-router.post('/login', UserController.saveUser);
+router.get('/users', UserController.fetchUserProfile);
+router.post('/login', UserController.loginUser);
 
 // Chat controller
 router.post('/conversation', ChatController.saveChat);

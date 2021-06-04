@@ -1,8 +1,5 @@
-export interface LoginDTO {
+export interface SaveUserDTO {
     email: string;
     password: string;
 }
 
-export interface logoutDTO {
-    
-}
