@@ -1,17 +1,18 @@
 import { User } from '../../entity/User';
-import { SaveUserDTO } from './UserDTO';
+import { LoginDTO } from './UserDTO';
 
 class UserService {
-    async saveUser(dto: SaveUserDTO) {
+    async login(dto: LoginDTO) {
         const { email, password } = dto;
-        const user = new User();
-        user.email = email;
-        user.password = password;
-        return await user.save();
+        const user = await User.findOne({
+            where: { email, password },
+            select: ['id', 'email'],
+        });
+        return user;
     }
-    async findUsers() {
+    async logout() {
         const conversation = await User.find({
-            relations: ['messages'],
+            
         });
         return conversation;
     }

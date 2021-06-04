@@ -14,18 +14,18 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, { cors: { origin: '*' } });
 
-// io.on('connection', socket => {
-//     console.log(socket.id);
+io.on('connection', (socket: any) => {
+    console.log(socket.id);
 
-//     socket.on('send_message', data => {
-//         console.log(data);
-//         socket.to(data.room).emit('receive_message', data.content);
-//     });
+    socket.on('send_message', (data: any) => {
+        console.log(data);
+        socket.to(data.room).emit('receive_message', data);
+    });
 
-//     socket.on('disconnect', data => {
-//         console.log('User disconnected');
-//     });
-// });
+    socket.on('disconnect', (data: any) => {
+        console.log('User disconnected');
+    });
+});
 
 app.use(
     cors({
