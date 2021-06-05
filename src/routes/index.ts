@@ -9,7 +9,7 @@ router.get('/', (_req: Request, res: Response) => {
 });
 
 // User controller
-router.get('/login', UserController.fetchUserProfile);
+router.get('/users', UserController.fetchUserProfile);
 router.post('/login', UserController.loginUser);
 
 // Chat controller
