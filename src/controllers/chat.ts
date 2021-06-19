@@ -21,7 +21,7 @@ class ChatController {
         try {
             // console.log('hit1');
             const Id = get(req, 'params.id');
-            const conversation = await ChatService.saveChats({ id: Id });
+            const conversation = await ChatService.saveChat({ id: Id });
             // console.log('hit2');
             return res.json(conversation);
         } catch (error) {

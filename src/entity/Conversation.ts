@@ -12,7 +12,7 @@ import { Participant } from './Participant';
 @Entity('conversations')
 export class Conversation extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @OneToOne(() => Message)
     @JoinColumn()

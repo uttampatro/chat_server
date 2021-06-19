@@ -4,28 +4,18 @@ require('dotenv').config();
 import cookieParser from 'cookie-parser';
 import { createConnection } from 'typeorm';
 import v1Router from './routes/index';
+import ChatService, { IMessage } from './services/Chat/ChatService';
+import users from './controllers/users';
+import { socketInit } from './socket';
 
 const express = require('express');
-const socketio = require('socket.io');
 const http = require('http');
 const cors = require('cors');
+const socketio = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server, { cors: { origin: '*' } });
-
-io.on('connection', (socket: any) => {
-    console.log(socket.id);
-
-    socket.on('send_message', (data: any) => {
-        console.log(data);
-        socket.emit('receive_message', data);
-    });
-
-    socket.on('disconnect', (data: any) => {
-        console.log('User disconnected');
-    });
-});
 
 app.use(
     cors({
@@ -50,6 +40,9 @@ createConnection({
         console.log('Express application is up and running on port 5000');
         app.use('/v1', v1Router);
 
+        //socket initialization
+        socketInit(io);
+        
         const port = process.env.PORT || 5000;
 
         server.listen(port, () => {

@@ -19,7 +19,7 @@ export class Message extends BaseEntity {
     content: string;
 
     @Column({ type: 'uuid' })
-    conversationId: number;
+    conversationId: string;
 
     @ManyToOne(() => User, user => user.messages)
     @JoinColumn()
