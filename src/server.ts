@@ -4,8 +4,6 @@ require('dotenv').config();
 import cookieParser from 'cookie-parser';
 import { createConnection } from 'typeorm';
 import v1Router from './routes/index';
-import ChatService, { IMessage } from './services/Chat/ChatService';
-import users from './controllers/users';
 import { socketInit } from './socket';
 
 const express = require('express');
@@ -42,7 +40,7 @@ createConnection({
 
         //socket initialization
         socketInit(io);
-        
+
         const port = process.env.PORT || 5000;
 
         server.listen(port, () => {

@@ -18,10 +18,7 @@ export class User extends BaseEntity {
     @Column()
     email: string;
 
-    // @Column({ type: 'int' })
-    // githubId: number;
-
-    @Column({nullable:true})
+    @Column({ nullable: true })
     password: string;
 
     @OneToMany(() => Message, message => message.user)
