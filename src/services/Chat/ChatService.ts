@@ -22,7 +22,7 @@ class ChatService {
         )
             .leftJoinAndSelect('conversations.lastMessage', 'lastMessage')
             .leftJoinAndSelect('lastMessage.user', 'user')
-            .select('conversations.id')  //IMP
+            .select('conversations.id') //IMP
             .addSelect('user.id')
             .addSelect('user.email')
             .addSelect('lastMessage.id')
