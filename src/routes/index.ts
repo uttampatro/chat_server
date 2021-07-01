@@ -10,7 +10,7 @@ router.get('/', (_req: Request, res: Response) => {
 
 // User controller
 router.get('/users', UserController.fetchUserProfile);
-router.get('/login', UserController.loginUser);
+router.post('/login', UserController.loginUser);
 
 // Chat controller
 router.post('/conversation', ChatController.saveChat);
